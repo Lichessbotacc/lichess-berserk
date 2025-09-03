@@ -1,14 +1,11 @@
-name: Run Lichess Berserk Bot
-
+name: Lichess Auto-Berserk
 on:
   schedule:
-    - cron: "*/5 * * * *"  # Führt das Skript alle 5 Minuten aus
-  workflow_dispatch:  # Ermöglicht manuelle Ausführung
-
+    - cron: "0 */6 * * *"  # Läuft alle 6 Stunden
+  workflow_dispatch:  # Ermöglicht manuellen Start
 jobs:
-  run-bot:
+  run-auto-berserk:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -16,15 +13,15 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.9"
+          python-version: '3.9'  # Oder neuere Version
 
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
           pip install berserk
 
-      - name: Run Lichess Bot
+      - name: Run Auto-Berserk Script
         env:
           LICHESS_API_TOKEN: ${{ secrets.LICHESS_API_TOKEN }}
         run: |
-          python lichess_berserk_bot.py
+          python auto_berserk.py
